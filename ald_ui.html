@@ -1,0 +1,310 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.root{background:#07101f;min-height:620px;padding:10px;display:flex;flex-direction:column;gap:8px;font-family:'Segoe UI',sans-serif;color:#c8d8f0}
+.topbar{display:flex;align-items:center;justify-content:space-between;background:#0b1526;border:1px solid #172840;border-radius:8px;padding:8px 16px}
+.topbar-title{font-size:14px;font-weight:500;color:#f0c040;letter-spacing:2px}
+.tbs{display:flex;gap:16px;align-items:center}
+.sl{font-size:11px;color:#6a9ac0}
+.sv{font-size:12px;color:#f0c040;font-weight:500}
+.dot{width:8px;height:8px;border-radius:50%;background:#27e87a;display:inline-block;margin-right:4px}
+.main{display:flex;gap:8px;flex:1}
+.lp{width:188px;display:flex;flex-direction:column;gap:8px}
+.cp{flex:1;display:flex;flex-direction:column;gap:8px}
+.rp{width:176px;display:flex;flex-direction:column;gap:8px}
+.card{background:#0b1526;border:1px solid #172840;border-radius:8px;padding:10px 12px}
+.ct{font-size:10px;color:#f0c040;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:7px;border-bottom:1px solid #172840;padding-bottom:5px}
+.pr{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid #0f1c2e}
+.pl{font-size:11px;color:#6a9ac0}
+.pv{font-size:12px;font-weight:500;color:#f0c040}
+.pu{font-size:10px;color:#3a6090;margin-left:2px}
+.gr{display:flex;flex-direction:column;gap:3px;padding:3px 0}
+.glr{display:flex;justify-content:space-between;font-size:10px}
+.glab{color:#6a9ac0}
+.gnum{color:#f0c040;font-weight:500}
+.gbb{height:5px;background:#07101f;border-radius:3px;overflow:hidden;margin-top:2px}
+.gb{height:5px;border-radius:3px;transition:width 0.6s}
+.cycle-steps{display:flex;gap:5px;margin-bottom:7px}
+.sb{flex:1;border-radius:6px;padding:6px 3px;text-align:center;border:1px solid #172840;transition:all 0.5s}
+.sb.active{border-color:#f0c040;background:#1a2800 !important}
+.st{font-size:10px;font-weight:500;margin-bottom:1px}
+.ss{font-size:9px;opacity:0.65}
+.sA{background:#081828;color:#5bc8f5}
+.sP1{background:#121200;color:#c8b040}
+.sB{background:#081810;color:#50d890}
+.sP2{background:#120812;color:#c080d0}
+.pgrow{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.pglabel{font-size:10px;color:#6a9ac0;white-space:nowrap;min-width:58px}
+.pgbg{flex:1;height:6px;background:#07101f;border-radius:3px;overflow:hidden}
+.pgfill{height:6px;border-radius:3px;background:linear-gradient(90deg,#1a5abf,#f0c040);transition:width 0.4s}
+.pgpct{font-size:11px;color:#f0c040;min-width:32px;text-align:right}
+.metric-mini{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid #0f1c2e}
+.mn{font-size:10px;color:#6a9ac0}
+.mv{font-size:12px;font-weight:500;color:#f0c040}
+.log-list{display:flex;flex-direction:column;gap:2px}
+.li{font-size:10px;color:#4a7090;padding:2px 0;border-bottom:1px solid #0d1828}
+.li .tag{color:#6a9ac0}
+.li.warn .tag{color:#f0c040}
+.li.ok .tag{color:#27e87a}
+.ar{display:flex;align-items:center;gap:6px;padding:3px 0;font-size:10px;border-bottom:1px solid #0f1c2e}
+.ad{width:7px;height:7px;border-radius:50%}
+.aok{background:#27e87a}
+.awn{background:#f0c040}
+.btn-row{display:flex;gap:6px;margin-top:6px}
+.btn{flex:1;padding:5px 0;border-radius:5px;border:1px solid #172840;font-size:11px;cursor:pointer;font-weight:500;transition:background 0.2s;background:transparent}
+.bs{background:#091c12;color:#27e87a;border-color:#10402a}
+.bs:hover{background:#0d2e1c}
+.bp{background:#14110a;color:#f0c040;border-color:#30280e}
+.bp:hover{background:#201c0d}
+.bx{background:#1c0909;color:#e04040;border-color:#401414}
+.bx:hover{background:#2c0e0e}
+.ba{background:#0a1220;color:#7ab0e0;font-size:10px}
+.ba:hover{background:#0e1a2e}
+</style>
+
+<div class="root">
+<h2 style="position:absolute;left:-9999px">ALD原子层沉积设备控制界面</h2>
+
+<div class="topbar">
+  <div class="topbar-title">▸ ALD SYSTEM CONTROL — 原子层沉积设备</div>
+  <div class="tbs">
+    <span><span class="dot"></span><span class="sl">系统状态</span> <span class="sv">运行中</span></span>
+    <span><span class="sl">循环</span> <span class="sv" id="cyc">247</span> / <span class="sv">500</span></span>
+    <span><span class="sl">膜厚</span> <span class="sv" id="thk">24.7</span><span class="sl"> nm</span></span>
+    <span><span class="sl">材料</span> <span class="sv">Al₂O₃</span></span>
+  </div>
+</div>
+
+<div class="main">
+<!-- LEFT -->
+<div class="lp">
+  <div class="card">
+    <div class="ct">腔室参数</div>
+    <div class="pr"><span class="pl">腔室压力</span><span><span class="pv" id="pv">2.4</span><span class="pu">mTorr</span></span></div>
+    <div class="pr"><span class="pl">基底温度</span><span><span class="pv">250</span><span class="pu">°C</span></span></div>
+    <div class="pr"><span class="pl">腔壁温度</span><span><span class="pv">180</span><span class="pu">°C</span></span></div>
+    <div class="pr"><span class="pl">泵速</span><span><span class="pv">85</span><span class="pu">%</span></span></div>
+    <div class="pr"><span class="pl">真空度</span><span><span class="pv">1.2e-3</span><span class="pu">Pa</span></span></div>
+    <div class="pr"><span class="pl">RF 功率</span><span><span class="pv">—</span><span class="pu">W</span></span></div>
+  </div>
+  <div class="card">
+    <div class="ct">气体流量 (sccm)</div>
+    <div class="gr">
+      <div class="glr"><span class="glab">前驱体A (TMA)</span><span class="gnum" id="gA">30</span></div>
+      <div class="gbb"><div class="gb" id="bA" style="width:60%;background:#5bc8f5"></div></div>
+    </div>
+    <div class="gr">
+      <div class="glr"><span class="glab">前驱体B (H₂O)</span><span class="gnum" id="gB">0</span></div>
+      <div class="gbb"><div class="gb" id="bB" style="width:0%;background:#50d890"></div></div>
+    </div>
+    <div class="gr">
+      <div class="glr"><span class="glab">吹扫气 (N₂)</span><span class="gnum" id="gN">50</span></div>
+      <div class="gbb"><div class="gb" id="bN" style="width:20%;background:#f0c040"></div></div>
+    </div>
+    <div class="gr">
+      <div class="glr"><span class="glab">载气 (Ar)</span><span class="gnum">50</span></div>
+      <div class="gbb"><div class="gb" style="width:20%;background:#c080d0"></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct">报警状态</div>
+    <div class="ar"><div class="ad aok"></div><span class="pl">温度</span><span style="color:#27e87a;margin-left:auto;font-size:10px">正常</span></div>
+    <div class="ar"><div class="ad aok"></div><span class="pl">压力</span><span style="color:#27e87a;margin-left:auto;font-size:10px">正常</span></div>
+    <div class="ar"><div class="ad awn"></div><span class="pl">前驱体A余量</span><span style="color:#f0c040;margin-left:auto;font-size:10px">偏低</span></div>
+    <div class="ar"><div class="ad aok"></div><span class="pl">泵状态</span><span style="color:#27e87a;margin-left:auto;font-size:10px">正常</span></div>
+    <div class="ar"><div class="ad aok"></div><span class="pl">冷却水</span><span style="color:#27e87a;margin-left:auto;font-size:10px">正常</span></div>
+  </div>
+</div>
+
+<!-- CENTER -->
+<div class="cp">
+  <div class="card">
+    <div class="ct">ALD 循环步骤</div>
+    <div class="cycle-steps">
+      <div class="sb sA active" id="s0"><div class="st">前驱体 A</div><div class="ss">TMA 脉冲</div><div class="ss" style="margin-top:2px">0.10 s</div></div>
+      <div class="sb sP1" id="s1"><div class="st">吹扫 ①</div><div class="ss">N₂ 清洗</div><div class="ss" style="margin-top:2px">5.0 s</div></div>
+      <div class="sb sB" id="s2"><div class="st">前驱体 B</div><div class="ss">H₂O 脉冲</div><div class="ss" style="margin-top:2px">0.10 s</div></div>
+      <div class="sb sP2" id="s3"><div class="st">吹扫 ②</div><div class="ss">N₂ 清洗</div><div class="ss" style="margin-top:2px">5.0 s</div></div>
+    </div>
+    <div class="pgrow"><span class="pglabel">本循环进度</span><div class="pgbg"><div class="pgfill" id="cprog" style="width:30%"></div></div><span class="pgpct" id="cpct">30%</span></div>
+    <div class="pgrow"><span class="pglabel">总工艺进度</span><div class="pgbg"><div class="pgfill" id="tprog" style="width:49%"></div></div><span class="pgpct" id="tpct">49%</span></div>
+  </div>
+
+  <!-- Chamber SVG -->
+  <div class="card">
+    <div class="ct">腔室截面示意图</div>
+    <svg viewBox="0 0 500 118" style="width:100%;height:118px" xmlns="http://www.w3.org/2000/svg">
+      <rect x="55" y="8" width="390" height="96" rx="12" fill="#07101f" stroke="#172840" stroke-width="1.5"/>
+      <!-- showerhead -->
+      <rect x="140" y="8" width="220" height="13" rx="3" fill="#0b1e3a" stroke="#1a3a60"/>
+      <text x="250" y="18" text-anchor="middle" font-size="8" fill="#5bc8f5">喷淋头 Showerhead</text>
+      <!-- gas arrows A -->
+      <g id="gaslines" opacity="0.9">
+        <line x1="180" y1="21" x2="180" y2="66" stroke="#5bc8f5" stroke-width="1.2" stroke-dasharray="3,3"><animate attributeName="stroke-dashoffset" from="0" to="-12" dur="0.7s" repeatCount="indefinite"/></line>
+        <line x1="210" y1="21" x2="210" y2="66" stroke="#5bc8f5" stroke-width="1.2" stroke-dasharray="3,3"><animate attributeName="stroke-dashoffset" from="0" to="-12" dur="0.9s" repeatCount="indefinite"/></line>
+        <line x1="240" y1="21" x2="240" y2="66" stroke="#5bc8f5" stroke-width="1.2" stroke-dasharray="3,3"><animate attributeName="stroke-dashoffset" from="0" to="-12" dur="0.75s" repeatCount="indefinite"/></line>
+        <line x1="270" y1="21" x2="270" y2="66" stroke="#5bc8f5" stroke-width="1.2" stroke-dasharray="3,3"><animate attributeName="stroke-dashoffset" from="0" to="-12" dur="0.85s" repeatCount="indefinite"/></line>
+        <line x1="300" y1="21" x2="300" y2="66" stroke="#5bc8f5" stroke-width="1.2" stroke-dasharray="3,3"><animate attributeName="stroke-dashoffset" from="0" to="-12" dur="0.8s" repeatCount="indefinite"/></line>
+        <line x1="330" y1="21" x2="330" y2="66" stroke="#5bc8f5" stroke-width="1.2" stroke-dasharray="3,3"><animate attributeName="stroke-dashoffset" from="0" to="-12" dur="0.95s" repeatCount="indefinite"/></line>
+      </g>
+      <!-- substrate -->
+      <rect x="150" y="66" width="200" height="10" rx="2" fill="#1060a0" stroke="#2878c0"/>
+      <!-- heater -->
+      <rect x="142" y="76" width="216" height="14" rx="3" fill="#1a3050" stroke="#223850"/>
+      <rect x="148" y="79" width="204" height="5" rx="2" fill="#a03010" opacity="0.6"/>
+      <text x="250" y="88" text-anchor="middle" font-size="8" fill="#c04020">加热台 Heater Stage</text>
+      <!-- film indicator -->
+      <rect x="150" y="64" width="200" height="3" rx="1" fill="#f0c040"><animate attributeName="opacity" values="0.3;1;0.3" dur="2.2s" repeatCount="indefinite"/></rect>
+      <!-- precursor A inlet -->
+      <rect x="55" y="22" width="32" height="14" rx="3" fill="#09182e" stroke="#1a3858"/>
+      <text x="71" y="31.5" text-anchor="middle" font-size="8" fill="#5bc8f5">TMA</text>
+      <line x1="87" y1="29" x2="140" y2="29" stroke="#5bc8f5" stroke-width="0.8" stroke-dasharray="3,2"/>
+      <!-- precursor B inlet -->
+      <rect x="55" y="46" width="32" height="14" rx="3" fill="#091e12" stroke="#1a4028"/>
+      <text x="71" y="55.5" text-anchor="middle" font-size="8" fill="#50d890">H₂O</text>
+      <line x1="87" y1="53" x2="140" y2="38" stroke="#50d890" stroke-width="0.8" stroke-dasharray="3,2"/>
+      <!-- N2 purge inlet -->
+      <rect x="55" y="70" width="32" height="14" rx="3" fill="#181400" stroke="#302800"/>
+      <text x="71" y="79.5" text-anchor="middle" font-size="8" fill="#c8b040">N₂</text>
+      <line x1="87" y1="77" x2="140" y2="77" stroke="#c8b040" stroke-width="0.8" stroke-dasharray="3,2"/>
+      <!-- pump outlet -->
+      <rect x="413" y="55" width="32" height="18" rx="3" fill="#110a20" stroke="#201840"/>
+      <text x="429" y="66" text-anchor="middle" font-size="8" fill="#c080d0">泵</text>
+      <line x1="360" y1="64" x2="413" y2="64" stroke="#c080d0" stroke-width="0.8" stroke-dasharray="3,2"/>
+      <!-- temp label -->
+      <rect x="58" y="96" width="54" height="10" rx="2" fill="#0b1526" stroke="#172840"/>
+      <text x="85" y="103" text-anchor="middle" font-size="8" fill="#f0c040">250 °C</text>
+      <text x="250" y="112" text-anchor="middle" font-size="8" fill="#3a5c7a">Al₂O₃ 原子层沉积 (ALD)</text>
+    </svg>
+  </div>
+
+  <!-- Real-time chart -->
+  <div class="card">
+    <div class="ct">实时参数曲线</div>
+    <div style="position:relative;height:100px"><canvas id="chartMain" role="img" aria-label="压力与温度实时趋势曲线">实时压力与温度趋势</canvas></div>
+    <div style="display:flex;gap:16px;margin-top:6px;font-size:10px">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:2px;background:#5bc8f5;display:inline-block"></span><span style="color:#5bc8f5">压力 (mTorr)</span></span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:2px;background:#f0c040;display:inline-block"></span><span style="color:#f0c040">温度 (×0.1°C)</span></span>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="card">
+    <div class="ct">工艺控制</div>
+    <div class="btn-row">
+      <button class="btn bs" id="btnStart" onclick="doStart()">▶ 启动</button>
+      <button class="btn bp" id="btnPause" onclick="doPause()">⏸ 暂停</button>
+      <button class="btn bx" onclick="doStop()">■ 停止</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn ba" onclick="sendPrompt('帮我优化ALD工艺参数，目标：改善Al₂O₃薄膜均匀性')">↗ AI 工艺优化</button>
+      <button class="btn ba" onclick="sendPrompt('分析当前ALD沉积数据，输出完整诊断报告')">↗ 生成诊断报告</button>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT -->
+<div class="rp">
+  <div class="card">
+    <div class="ct">膜厚统计</div>
+    <div class="metric-mini"><span class="mn">当前厚度</span><span class="mv" id="thk2">24.7 nm</span></div>
+    <div class="metric-mini"><span class="mn">目标厚度</span><span class="mv">50.0 nm</span></div>
+    <div class="metric-mini"><span class="mn">GPC</span><span class="mv">0.10 nm</span></div>
+    <div class="metric-mini"><span class="mn">均匀性</span><span class="mv" style="color:#27e87a">±1.2%</span></div>
+    <div class="metric-mini"><span class="mn">折射率</span><span class="mv">1.65</span></div>
+  </div>
+  <div class="card">
+    <div class="ct">压力趋势</div>
+    <div style="position:relative;height:80px"><canvas id="cP2" role="img" aria-label="压力小图"></canvas></div>
+    <div class="metric-mini"><span class="mn">当前</span><span class="mv" id="pvs">2.4 mTorr</span></div>
+    <div class="metric-mini"><span class="mn">峰值</span><span class="mv">8.1 mTorr</span></div>
+  </div>
+  <div class="card">
+    <div class="ct">温度趋势</div>
+    <div style="position:relative;height:80px"><canvas id="cT2" role="img" aria-label="温度小图"></canvas></div>
+    <div class="metric-mini"><span class="mn">基底</span><span class="mv">250 °C</span></div>
+    <div class="metric-mini"><span class="mn">腔壁</span><span class="mv">180 °C</span></div>
+  </div>
+  <div class="card">
+    <div class="ct">系统日志</div>
+    <div class="log-list" id="logs">
+      <div class="li ok"><span class="tag">[OK]</span> 系统启动完成</div>
+      <div class="li"><span class="tag">[STEP]</span> 循环 247 开始</div>
+      <div class="li"><span class="tag">[STEP]</span> 前驱体A脉冲</div>
+      <div class="li warn"><span class="tag">[WARN]</span> 前驱体A余量低</div>
+      <div class="li"><span class="tag">[STEP]</span> 吹扫①进行中</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let tArr=[249,250,251,250,248,251,250,249,252,250,249,251,250,248,251,250,249,250,251,250];
+let pArr=[2.2,2.4,8.0,2.3,2.4,7.8,2.4,2.3,8.1,2.4,2.2,7.9,2.4,2.3,8.0,2.4,2.2,2.4,7.7,2.4];
+let running=true,paused=false,cycProg=30,totalCyc=247,stepIdx=0;
+const gasState=[[30,0,50],[0,0,200],[0,30,50],[0,0,200]];
+const logMessages=['前驱体B脉冲完成','吹扫②完成','循环计数更新','参数稳定','膜厚更新'];
+
+function mk(id,d,c){
+  return new Chart(document.getElementById(id),{type:'line',data:{labels:d.map((_,i)=>i),datasets:[{data:[...d],borderColor:c,borderWidth:1.5,pointRadius:0,fill:true,backgroundColor:c+'1a',tension:0.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:true,ticks:{color:'#3a6080',font:{size:8}},grid:{color:'#0c1820'},border:{display:false}}},animation:{duration:200}}});
+}
+const chartMain=new Chart(document.getElementById('chartMain'),{type:'line',data:{labels:pArr.map((_,i)=>i),datasets:[{data:[...pArr],borderColor:'#5bc8f5',borderWidth:1.5,pointRadius:0,fill:false,tension:0.4,label:'压力'},{data:tArr.map(v=>(v-240)),borderColor:'#f0c040',borderWidth:1.5,pointRadius:0,fill:false,tension:0.4,label:'温度'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:true,ticks:{color:'#3a6080',font:{size:8}},grid:{color:'#0c1820'},border:{display:false}}},animation:{duration:200}}});
+const cP2=mk('cP2',pArr,'#5bc8f5');
+const cT2=mk('cT2',tArr,'#f0c040');
+
+function updStep(s){
+  for(let i=0;i<4;i++){const el=document.getElementById('s'+i);el.classList.remove('active');}
+  document.getElementById('s'+s).classList.add('active');
+  const g=gasState[s];
+  document.getElementById('gA').textContent=g[0];
+  document.getElementById('gB').textContent=g[1];
+  document.getElementById('gN').textContent=g[2];
+  document.getElementById('bA').style.width=(g[0]/50*100)+'%';
+  document.getElementById('bB').style.width=(g[1]/50*100)+'%';
+  document.getElementById('bN').style.width=(g[2]/250*100)+'%';
+}
+
+function tick(){
+  if(!running||paused)return;
+  cycProg+=2.5;
+  if(cycProg>=100){
+    cycProg=0;totalCyc++;
+    const logDiv=document.getElementById('logs');
+    const newLog=document.createElement('div');
+    newLog.className='li ok';
+    newLog.innerHTML='<span class="tag">[OK]</span> 循环 '+totalCyc+' 完成';
+    logDiv.insertBefore(newLog,logDiv.firstChild);
+    if(logDiv.children.length>7)logDiv.removeChild(logDiv.lastChild);
+  }
+  stepIdx=Math.floor(cycProg/25)%4;
+  updStep(stepIdx);
+  document.getElementById('cprog').style.width=cycProg.toFixed(0)+'%';
+  document.getElementById('cpct').textContent=cycProg.toFixed(0)+'%';
+  const tp=Math.min(totalCyc/500*100,100);
+  document.getElementById('tprog').style.width=tp.toFixed(1)+'%';
+  document.getElementById('tpct').textContent=tp.toFixed(0)+'%';
+  document.getElementById('cyc').textContent=totalCyc;
+  const thk=(totalCyc*0.1).toFixed(1);
+  document.getElementById('thk').textContent=thk;
+  document.getElementById('thk2').textContent=thk+' nm';
+  const newP=stepIdx===0||stepIdx===2?7+Math.random()*1.5:2+Math.random()*0.5;
+  const newT=248+Math.random()*4;
+  pArr.push(newP);pArr.shift();
+  tArr.push(newT);tArr.shift();
+  const p=parseFloat(newP.toFixed(1));
+  document.getElementById('pv').textContent=p;
+  document.getElementById('pvs').textContent=p+' mTorr';
+  chartMain.data.datasets[0].data=[...pArr];
+  chartMain.data.datasets[1].data=tArr.map(v=>v-240);
+  chartMain.update('none');
+  cP2.data.datasets[0].data=[...pArr];cP2.update('none');
+  cT2.data.datasets[0].data=[...tArr];cT2.update('none');
+}
+
+function doStart(){running=true;paused=false;document.getElementById('btnStart').textContent='▶ 运行中';}
+function doPause(){paused=!paused;document.getElementById('btnPause').textContent=paused?'▶ 继续':'⏸ 暂停';}
+function doStop(){running=false;cycProg=0;document.getElementById('cprog').style.width='0%';document.getElementById('cpct').textContent='0%';document.getElementById('btnStart').textContent='▶ 启动';}
+
+setInterval(tick,450);
+</script>
